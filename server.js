@@ -6,7 +6,12 @@ const cookieParser = require("cookie-parser");
 
 const blogRoutes = require("./routes/blog-routes");
 const authRoutes = require("./routes/auth-route");
-const connectDB = require("./config/db");
+
+// ~ LocalStorage
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require("node-localstorage").LocalStorage;
+  localStorage = new LocalStorage("./scratch");
+}
 
 // ~config
 dotenv.config({ path: "./config/config.env" });
@@ -21,9 +26,6 @@ app.use(cookieParser());
 
 // ~ PORT
 const PORT = process.env.PORT || 5000;
-
-// ~ CONNECTING WITH THE DATABASE
-connectDB();
 
 // ~ ROUTES
 app.use("/blog", blogRoutes);
